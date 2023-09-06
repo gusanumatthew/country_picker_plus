@@ -14,22 +14,22 @@ class CountriesBloc extends Cubit<CountriesState> {
     fetchData();
   }
 
-  void setCountry({Country? country,String? name}) {
-    if(name!=null){
+  void setCountry({Country? country, String? name}) {
+    if (name != null) {
       emit(state.copyWith(country: Country(name: name)));
     }
     emit(state.copyWith(country: country));
   }
 
-  void setState({CountryState? countryState,String? name}) {
-    if(name!=null){
+  void setState({CountryState? countryState, String? name}) {
+    if (name != null) {
       emit(state.copyWith(state: CountryState(name: name)));
     }
     emit(state.copyWith(state: countryState));
   }
 
-  void setCity({City? city,String? name}) {
-    if(name!=null){
+  void setCity({City? city, String? name}) {
+    if (name != null) {
       emit(state.copyWith(city: City(name: name)));
     }
     emit(state.copyWith(city: city));
@@ -50,8 +50,11 @@ class CountriesBloc extends Cubit<CountriesState> {
       final statesData = state.countries
           .firstWhere((element) => element.name == country)
           .states;
-      final states = statesData
-          .map((e) => CountryState(name: e['name'], cities: e['cities']));
+      final states = statesData.map((e) => CountryState(
+          name: e['name'] == 'Abuja Federal Capital Territory'
+              ? 'Abuja'
+              : e['name'],
+          cities: e['cities']));
       final res = states.where((element) =>
           element.name.toLowerCase().contains(searchValue.toLowerCase()));
       return res.toList();
